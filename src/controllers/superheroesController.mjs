@@ -7,7 +7,8 @@ import {
     buscarSuperheroesPorAtributo,
     obtenerSuperheroesMayoresDe30,
     agregarNuevoSuperHeroe, modificarSuperHeroeporEdad,
-    eliminarSuperHereoPorId
+    eliminarSuperHereoPorId,
+    eliminarSuperHeroeNombre
 } from '../services/superheroesService.mjs';
 
 import {
@@ -139,11 +140,7 @@ export async function eliminarSuperheroePorIdController(req, res) {
         console.log(superheroe);
         if (!superheroe) {
             return res.status(404).send({ mensaje: 'Superheroe no encontrado' });
-        }
-        //const superheroesFormateado = renderizarSuperheroe(superheroe);
-         //console.log(superheroesFormateado);
-         //const mostrarSuperHeroeFormateado = await obtenerSuperheroePorId(id);
-        //console.log('que paso', mostrarSuperHeroeFormateado);   
+        } 
          res.status(200).json({
              mensaje: "Super Héroe Eliminado Exitosamente",
             }
@@ -152,6 +149,33 @@ export async function eliminarSuperheroePorIdController(req, res) {
         //res.status(200).json(superheroeFormateado);
     } catch (error) {
         res.status(500).send({ mensaje: 'Error al encontrar el ID el superhéroe',
+            error: error.message });
+    }
+}
+
+export async function eliminarSuperheroePorNombreController(req, res) {
+    try {
+        const { nombre } = req.params;
+        console.log('cual es el Nombre:', nombre);
+        const superheroe = await eliminarSuperHeroeNombre(nombre);
+        console.log('que me trae', superheroe);
+        if (!superheroe) {
+            return res.status(404).send({ mensaje: 'Superheroe no encontrado' });
+        } 
+        const superheroeFormateado = renderizarSuperheroe(superheroe);
+        //res.status(200).json(superheroeFormateado);
+        res.status(200).json({
+            mensaje: "Super Héroe Eliminado con éxito",
+            superheroe: superheroeFormateado}
+            );
+        /*res.status(200).json({
+             mensaje: "Super Héroe Eliminado Exitosamente",
+            }
+             );*/
+        
+    } catch (error) {
+        res.status(500)
+        .send({ mensaje: 'Error al encontrar el Nombre el superhéroe',
             error: error.message });
     }
 }

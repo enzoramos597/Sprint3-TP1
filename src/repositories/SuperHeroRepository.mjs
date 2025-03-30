@@ -57,6 +57,20 @@ class SuperHeroRepository extends IRepository {
         return await superHero.findByIdAndDelete(id);
     }
 
+    async eliminarPorNombre(nombre) {
+        const eliminarSuperHeroeNombre = await superHero.findOneAndDelete({ nombreSuperHeroe: nombre });
+        if (!eliminarSuperHeroeNombre) return res.status(404).json({ message: "Super Hereo no encontrado" });
+        //console.log('Capa de Repository',nombredelSuperHeroe);
+        return eliminarSuperHeroeNombre;
+    }
+
+    async eliminarSuperHeroeNombre(nombre) 
+    {
+        const eliminarSuperHeroeNombre2 = await superHero.findOneAndDelete({ nombreSuperHeroe: nombre });
+        if (!eliminarSuperHeroeNombre2) return res.status(404).json({ message: "Super Hereo no encontrado" });
+        //console.log('Capa de Repository',nombredelSuperHeroe);
+        return eliminarSuperHeroeNombre2;
+    }
     async buscarPorAtributo(atributo, valor) {
         return await superHero.find({
             [ atributo ]: valor
