@@ -7,7 +7,8 @@ import {
     obtenerTodosLosSuperheroesController,
     buscarSuperheroesPorAtributoController,
     obtenerSuperheroesMayoresDe30Controller, 
-    agregarSuperHeroesController, modificarSuperHeroesporIdController
+    agregarSuperHeroesController, modificarSuperHeroesporIdController,
+    eliminarSuperheroePorIdController
 } from '../controllers/superheroesController.mjs';
 
 const router = express.Router();
@@ -20,5 +21,6 @@ router.get('/heroes/mayores-30', obtenerSuperheroesMayoresDe30Controller);
 //Sprint 3 - TP1
 router.get('/heroes', obtenerTodosLosSuperheroesController);
 router.post('/heroes/nuevo/agregarheroes', agregarSuperHeroesController);
-router.put('/heroes/actualizar/:id', modificarSuperHeroesporIdController );
+router.put('/heroes/actualizar/:id/:atributo/:valor', modificarSuperHeroesporIdController );
+router.delete('/heroes/eliminar/id/:id', eliminarSuperheroePorIdController)
 export default router;

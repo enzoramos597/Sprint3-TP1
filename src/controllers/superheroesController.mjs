@@ -6,7 +6,8 @@ import {
     obtenerTodosLosSuperheroes,
     buscarSuperheroesPorAtributo,
     obtenerSuperheroesMayoresDe30,
-    agregarNuevoSuperHeroe, modificarSuperHeroeporEdad
+    agregarNuevoSuperHeroe, modificarSuperHeroeporEdad,
+    eliminarSuperHereoPorId
 } from '../services/superheroesService.mjs';
 
 import {
@@ -88,7 +89,7 @@ export async function agregarSuperHeroesController(req, res) {
         }
         //console.log('vererror');        
         const superheroesFormateado = renderizarSuperheroe(superheroeCreado);
-        //console.log(superheroesFormateados);
+        //const mostrarSuperHeroeFormateado = await obtenerSuperheroePorId(id);     
         res.status(200).json({
             mensaje: "Super Héroe creado con éxito",
             superheroe: superheroesFormateado}
@@ -104,18 +105,53 @@ export async function agregarSuperHeroesController(req, res) {
 
 export async function modificarSuperHeroesporIdController(req, res) {
     try {
-        const {id} = req.params;
-        const superheroe = await modificarSuperHeroeporEdad(id);
+        const {id, atributo, valor} = req.params;
+        const superheroe = await modificarSuperHeroeporEdad(id, atributo, valor);
         console.log('Actualizado:', superheroe);
         if (superheroe.length === 0) {
             return res.status(404).send(
-                { mensaje: 'No se encontro el SuperHeroes con esa edad' });
+                { mensaje: 'No se encontro el SuperHeroes con esa atributo o valor' });
         }
-        const superheroesFormateados = renderizarListaSuperheroes(superheroe);
-        res.status(200).json(superheroesFormateados);
+         //console.log('vererror');        
+         
+         const superheroesFormateado = renderizarSuperheroe(superheroe);
+         //console.log(superheroesFormateado);
+         const mostrarSuperHeroeFormateado = await obtenerSuperheroePorId(id);
+        console.log('que paso', mostrarSuperHeroeFormateado);   
+         res.status(200).json({
+             mensaje: "Super Héroe Modificado Exitosamente",
+             superheroe: mostrarSuperHeroeFormateado}
+             );
+        //const superheroesFormateados = renderizarSuperheroe(superheroe);
+        //res.status(200).json(superheroesFormateados);
     } catch (error) {
         res.status(500).send(
             { mensaje: 'Error al modificar el Super Heroe',
+            error: error.message });
+    }
+}
+
+export async function eliminarSuperheroePorIdController(req, res) {
+    try {
+        const {id} = req.params;
+        console.log('cual es el ID:', id);
+        const superheroe = await eliminarSuperHereoPorId(id);
+        console.log(superheroe);
+        if (!superheroe) {
+            return res.status(404).send({ mensaje: 'Superheroe no encontrado' });
+        }
+        //const superheroesFormateado = renderizarSuperheroe(superheroe);
+         //console.log(superheroesFormateado);
+         //const mostrarSuperHeroeFormateado = await obtenerSuperheroePorId(id);
+        //console.log('que paso', mostrarSuperHeroeFormateado);   
+         res.status(200).json({
+             mensaje: "Super Héroe Eliminado Exitosamente",
+            }
+             );
+        //const superheroeFormateado = renderizarSuperheroe(superheroe);
+        //res.status(200).json(superheroeFormateado);
+    } catch (error) {
+        res.status(500).send({ mensaje: 'Error al encontrar el ID el superhéroe',
             error: error.message });
     }
 }

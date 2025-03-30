@@ -46,11 +46,15 @@ class SuperHeroRepository extends IRepository {
         return guardarSuperHeroe;
     };
     
-    async modificarSuperHeroeporEdad (id){
+    async modificarSuperHeroeporEdad (id, atributo, valor){
         return await superHero.updateOne(
             { _id: id},
-            { $set : { edad: 20}}
+            { $set : { [atributo]: valor}}
         );       
+    }
+
+    async eliminarPorId(id) {
+        return await superHero.findByIdAndDelete(id);
     }
 
     async buscarPorAtributo(atributo, valor) {

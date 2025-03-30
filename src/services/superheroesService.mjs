@@ -23,6 +23,10 @@ export async function agregarNuevoSuperHeroe(agregarNuevoSP) {
     return await SuperHeroRepository.agregarNuevoSuperHeroeEnzo(agregarNuevoSP);
 }
 
-export async function modificarSuperHeroeporEdad(id, edad) {
-    return await SuperHeroRepository.modificarSuperHeroeporEdad(id, edad);
+export async function modificarSuperHeroeporEdad(id, atributo, valor) {
+    return await SuperHeroRepository.modificarSuperHeroeporEdad(id, atributo, valor);
+}
+
+export async function eliminarSuperHereoPorId(id) {
+    return await SuperHeroRepository.eliminarPorId(id);
 }
